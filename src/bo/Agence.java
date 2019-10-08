@@ -6,17 +6,17 @@ public class Agence {
 
     private int id;
     private String code;
-    private String address;
+    private String adresse;
     private List<Compte> comptes;
 
     public Agence(){
 
     }
 
-    public Agence(int id, String code, String address, List<Compte> comptes) {
+    public Agence(int id, String code, String adresse, List<Compte> comptes) {
         this.id = id;
         this.code = code;
-        this.address = address;
+        this.adresse = adresse;
         this.comptes = comptes;
     }
 
@@ -25,7 +25,7 @@ public class Agence {
         return "Agence{" +
                 "id=" + id +
                 ", code='" + code + '\'' +
-                ", address='" + address + '\'' +
+                ", adresse='" + adresse + '\'' +
                 ", comptes=" + comptes +
                 '}';
     }
@@ -46,12 +46,12 @@ public class Agence {
         this.code = code;
     }
 
-    public String getAddress() {
-        return address;
+    public String getAdresse() {
+        return adresse;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAdresse(String address) {
+        this.adresse = adresse;
     }
 
     public List<Compte> getComptes() {
