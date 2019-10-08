@@ -1,4 +1,4 @@
 package bo;
 
-public class ComptePayant {
+public class ComptePayant extends Compte {
 }
