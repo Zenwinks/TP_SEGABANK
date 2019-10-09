@@ -4,7 +4,7 @@ public abstract class Compte {
     protected int id;
     protected float solde;
     protected int type;
-    protected Agence agence;
+    protected int agence;
 
     /**
      * Constructeur
@@ -12,7 +12,7 @@ public abstract class Compte {
     public Compte() {
     }
 
-    public Compte(int id, float solde, Agence agence) {
+    public Compte(int id, float solde, int agence) {
         this.id = id;
         this.solde = solde;
         this.type = type;
@@ -38,11 +38,11 @@ public abstract class Compte {
         this.solde = solde;
     }
 
-    public Agence getAgence() {
+    public int getAgence() {
         return agence;
     }
 
-    public void setAgence(Agence agence) {
+    public void setAgence(int agence) {
         this.agence = agence;
     }
 

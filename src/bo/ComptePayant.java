@@ -8,7 +8,7 @@ public class ComptePayant extends Compte {
 
     }
 
-    public ComptePayant(int id, float solde, Agence agence) {
+    public ComptePayant(int id, float solde, int agence) {
         super(id, solde, agence);
         setType(3);
     }
