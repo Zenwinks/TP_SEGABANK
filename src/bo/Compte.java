@@ -1,8 +1,9 @@
 package bo;
 
-public class Compte {
+public abstract class Compte {
     protected int id;
     protected float solde;
+    protected int type;
     protected Agence agence;
 
     /**
@@ -14,6 +15,7 @@ public class Compte {
     public Compte(int id, float solde, Agence agence) {
         this.id = id;
         this.solde = solde;
+        this.type = type;
         this.agence = agence;
     }
 
@@ -44,6 +46,14 @@ public class Compte {
         this.agence = agence;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     /**
      * toString()
      */
@@ -59,13 +69,24 @@ public class Compte {
     /**
      * Methods
      */
-    public float retrait(float montant) {
-        this.solde -= montant;
-        return this.solde;
+    public void retrait(float montant) {
+        if (montant > 0) {
+            if (getSolde() - montant >= 0) {
+                solde -= montant;
+            } else {
+                System.out.println("Pas assez d'argent");
+            }
+        } else {
+            System.out.println("Un retrait ne peut être négatif");
+        }
     }
 
-    public float versement(float montant) {
-        this.solde += montant;
-        return this.solde;
+    public void versement(float montant) {
+        if(montant>0) {
+            this.solde += montant;
+        }
+        else{
+            System.out.println("Un virement ne peut être négatif");
+        }
     }
 }

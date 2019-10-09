@@ -12,6 +12,7 @@ public class CompteEpargne extends Compte {
     public CompteEpargne(int id, float solde, Agence agence, float tauxInteret) {
         super(id, solde, agence);
         this.tauxInteret = tauxInteret;
+        setType(1);
     }
 
     /**
@@ -41,7 +42,8 @@ public class CompteEpargne extends Compte {
     /**
      * Methods
      */
-    public float calculInteret() {
-
+    public void calculInteret() {
+        float interet = getSolde() + (getSolde() * (tauxInteret / 100));
+        setSolde(interet);
     }
 }
