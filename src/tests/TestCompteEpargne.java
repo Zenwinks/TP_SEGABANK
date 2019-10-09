@@ -1,12 +1,17 @@
-package testBo;
+package tests;
 
 import bo.*;
+import dao.AgenceDAO;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
 public class TestCompteEpargne {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
         CompteEpargne compteEpargne;
 
         System.out.printf("Test 1 - Création d'un compte épargne%n");
-        compteEpargne = new CompteEpargne(1,1500.00f, 2, 5);
+        compteEpargne = new CompteEpargne(1,1500.00f, AgenceDAO.getAgenceById(2), 5);
         System.out.println(compteEpargne.toString());
 
         System.out.printf("Test 2 - Versement de 300.00€ sur un compte épargne%n");

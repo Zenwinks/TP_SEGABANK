@@ -9,10 +9,9 @@ public class CompteSimple extends Compte {
     public CompteSimple() {
     }
 
-    public CompteSimple(int id, float solde, int agence, float decouvertAutorise) {
+    public CompteSimple(int id, float solde, Agence agence, float decouvertAutorise) {
         super(id, solde, agence);
         this.decouvertAutorise = decouvertAutorise;
-        setType(2);
     }
 
     /**

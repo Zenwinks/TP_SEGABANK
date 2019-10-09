@@ -20,6 +20,23 @@ public class Agence {
         this.comptes = comptes;
     }
 
+    public Agence(String code, String adresse, List<Compte> comptes) {
+        this.code = code;
+        this.adresse = adresse;
+        this.comptes = comptes;
+    }
+
+    public Agence(int id, String code, String adresse) {
+        this.id = id;
+        this.code = code;
+        this.adresse = adresse;
+    }
+
+    public Agence(String code, String adresse) {
+        this.code = code;
+        this.adresse = adresse;
+    }
+
     @Override
     public String toString() {
         return "Agence{" +

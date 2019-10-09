@@ -1,10 +1,9 @@
 package bo;
 
-public abstract class Compte {
+public class Compte {
     protected int id;
     protected float solde;
-    protected int type;
-    protected int agence;
+    protected Agence agence;
 
     /**
      * Constructeur
@@ -12,10 +11,9 @@ public abstract class Compte {
     public Compte() {
     }
 
-    public Compte(int id, float solde, int agence) {
+    public Compte(int id, float solde, Agence agence) {
         this.id = id;
         this.solde = solde;
-        this.type = type;
         this.agence = agence;
     }
 
@@ -38,20 +36,12 @@ public abstract class Compte {
         this.solde = solde;
     }
 
-    public int getAgence() {
+    public Agence getAgence() {
         return agence;
     }
 
-    public void setAgence(int agence) {
+    public void setAgence(Agence agence) {
         this.agence = agence;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     /**

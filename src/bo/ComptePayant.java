@@ -8,9 +8,8 @@ public class ComptePayant extends Compte {
 
     }
 
-    public ComptePayant(int id, float solde, int agence) {
+    public ComptePayant(int id, float solde, Agence agence) {
         super(id, solde, agence);
-        setType(3);
     }
 
     @Override
@@ -41,7 +40,6 @@ public class ComptePayant extends Compte {
         return "ComptePayant{" +
                 "id=" + id +
                 ", solde=" + solde +
-                ", type=" + type +
                 ", agence=" + agence +
                 '}';
     }
