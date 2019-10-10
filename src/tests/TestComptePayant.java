@@ -12,7 +12,7 @@ public class TestComptePayant {
         ComptePayant comptePayant;
 
         System.out.printf("Test 1 - Création d'un compte payant%n");
-        comptePayant = new ComptePayant(1,1000.00f, AgenceDAO.getAgenceById(2));
+        comptePayant = new ComptePayant(1,1000.00f, new Agence(1, "CA114", "16 rue de Gaulle"));
         System.out.println(comptePayant.toString());
 
         System.out.printf("Test 2 - Versement de 300.00€%n");

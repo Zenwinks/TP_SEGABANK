@@ -11,7 +11,7 @@ public class TestCompteEpargne {
         CompteEpargne compteEpargne;
 
         System.out.printf("Test 1 - Création d'un compte épargne%n");
-        compteEpargne = new CompteEpargne(1,1500.00f, AgenceDAO.getAgenceById(2), 5);
+        compteEpargne = new CompteEpargne(1,1500.00f, new Agence(1, "CA114", "16 rue de Gaulle"), 5);
         System.out.println(compteEpargne.toString());
 
         System.out.printf("Test 2 - Versement de 300.00€ sur un compte épargne%n");

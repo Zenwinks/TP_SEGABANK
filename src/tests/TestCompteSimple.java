@@ -12,7 +12,7 @@ public class TestCompteSimple {
         CompteSimple compteSimple;
 
         System.out.printf("Test 1 - Création d'un compte simple%n");
-        compteSimple = new CompteSimple(1,1400f, AgenceDAO.getAgenceById(2), 200f);
+        compteSimple = new CompteSimple(1,1400f, new Agence(1, "CA114", "16 rue de Gaulle"), 200f);
         System.out.println(compteSimple.toString());
 
         System.out.printf("Test 2 - versement de 800.00€%n");
