@@ -43,7 +43,6 @@ public class Agence {
                 "id=" + id +
                 ", code='" + code + '\'' +
                 ", adresse='" + adresse + '\'' +
-                ", comptes=" + comptes +
                 '}';
     }
 

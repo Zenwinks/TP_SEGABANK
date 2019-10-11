@@ -9,8 +9,13 @@ public class CompteEpargne extends Compte {
     public CompteEpargne() {
     }
 
+    public CompteEpargne(float solde, Agence agence, float tauxInteret) {
+        super(solde, 2, agence);
+        this.tauxInteret = tauxInteret;
+    }
+
     public CompteEpargne(int id, float solde, Agence agence, float tauxInteret) {
-        super(id, solde, agence);
+        super(id, solde, 2, agence);
         this.tauxInteret = tauxInteret;
     }
 

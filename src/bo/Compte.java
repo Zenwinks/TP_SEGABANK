@@ -3,6 +3,7 @@ package bo;
 public class Compte {
     protected int id;
     protected float solde;
+    protected int typeCompte;
     protected Agence agence;
 
     /**
@@ -11,9 +12,16 @@ public class Compte {
     public Compte() {
     }
 
-    public Compte(int id, float solde, Agence agence) {
+    public Compte(float solde, int typeCompte, Agence agence) {
+        this.solde = solde;
+        this.typeCompte = typeCompte;
+        this.agence = agence;
+    }
+
+    public Compte(int id, float solde, int typeCompte, Agence agence) {
         this.id = id;
         this.solde = solde;
+        this.typeCompte = typeCompte;
         this.agence = agence;
     }
 
@@ -44,6 +52,14 @@ public class Compte {
         this.agence = agence;
     }
 
+    public int getTypeCompte() {
+        return typeCompte;
+    }
+
+    public void setTypeCompte(int typeCompte) {
+        this.typeCompte = typeCompte;
+    }
+
     /**
      * toString()
      */
@@ -52,6 +68,7 @@ public class Compte {
         return "Compte{" +
                 "id=" + id +
                 ", solde=" + solde +
+                ", typeCompte=" + typeCompte +
                 ", agence=" + agence +
                 '}';
     }

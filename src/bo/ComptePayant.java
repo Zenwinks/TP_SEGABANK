@@ -8,8 +8,12 @@ public class ComptePayant extends Compte {
 
     }
 
+    public ComptePayant(float solde, Agence agence) {
+        super(solde, 3, agence);
+    }
+
     public ComptePayant(int id, float solde, Agence agence) {
-        super(id, solde, agence);
+        super(id, solde, 3, agence);
     }
 
     @Override

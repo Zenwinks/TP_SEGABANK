@@ -9,8 +9,13 @@ public class CompteSimple extends Compte {
     public CompteSimple() {
     }
 
+    public CompteSimple(float solde, Agence agence, float decouvertAutorise) {
+        super(solde, 1, agence);
+        this.decouvertAutorise = decouvertAutorise;
+    }
+
     public CompteSimple(int id, float solde, Agence agence, float decouvertAutorise) {
-        super(id, solde, agence);
+        super(id, solde, 1, agence);
         this.decouvertAutorise = decouvertAutorise;
     }
 

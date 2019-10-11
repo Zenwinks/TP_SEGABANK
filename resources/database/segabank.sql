@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 09 oct. 2019 à 12:41
+-- Généré le :  ven. 11 oct. 2019 à 06:56
 -- Version du serveur :  5.7.24
 -- Version de PHP :  7.2.14
 
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `segabank`
 --
+CREATE DATABASE IF NOT EXISTS `segabank` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `segabank`;
 
 -- --------------------------------------------------------
 
@@ -34,14 +36,14 @@ CREATE TABLE IF NOT EXISTS `agence` (
   `code` varchar(30) NOT NULL DEFAULT '',
   `adresse` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `agence`
 --
 
 INSERT INTO `agence` (`id`, `code`, `adresse`) VALUES
-(1, 'CA114', '14 chemin des prés'),
+(1, 'CA114', '2 rue de la modification'),
 (2, 'CA183', '18 rue des impasses'),
 (3, 'CA225', '2 avenue du champs'),
 (4, 'CA281', '141 boulevard du roseau');
@@ -60,7 +62,9 @@ CREATE TABLE IF NOT EXISTS `compte` (
   `taux_interet` float DEFAULT NULL,
   `type` int(1) NOT NULL,
   `id_agence` int(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `FK_CompteAgence` (`id_agence`),
+  KEY `FK_TypeCompte` (`type`)
 ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
@@ -77,7 +81,47 @@ INSERT INTO `compte` (`id`, `solde`, `decouvert`, `taux_interet`, `type`, `id_ag
 (8, -180, 500, NULL, 2, 4),
 (9, 5000, NULL, NULL, 3, 4),
 (10, 1423880, NULL, NULL, 3, 3);
-COMMIT;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `operation`
+--
+
+DROP TABLE IF EXISTS `operation`;
+CREATE TABLE IF NOT EXISTS `operation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(2) NOT NULL,
+  `id_compte` int(5) NOT NULL,
+  `montant` float NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_OperationCompte` (`id_compte`),
+  KEY `FK_TypeOperation` (`type`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `type_compte`
+--
+
+DROP TABLE IF EXISTS `type_compte`;
+CREATE TABLE IF NOT EXISTS `type_compte` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `label` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `type_compte`
+--
+
+INSERT INTO `type_compte` (`id`, `label`) VALUES
+(1, 'Simple'),
+(2, 'Épargne'),
+(3, 'Payant');
+
+-- --------------------------------------------------------
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

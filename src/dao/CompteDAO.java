@@ -7,9 +7,29 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompteDAO {
+public class CompteDAO implements IDAO<Long, Compte>{
 
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM compte WHERE id = ?";
+
+    @Override
+    public void create(Compte object) throws SQLException, IOException, ClassNotFoundException {
+
+    }
+
+    @Override
+    public void update(Compte object) throws SQLException, IOException, ClassNotFoundException {
+
+    }
+
+    @Override
+    public void remove(Compte object) throws SQLException, IOException, ClassNotFoundException {
+
+    }
+
+    @Override
+    public Object findById(int id) throws SQLException, IOException, ClassNotFoundException {
+        return null;
+    }
 
     public List<Compte> findAll() throws SQLException, IOException, ClassNotFoundException {
         List<Compte> list = new ArrayList<>();
