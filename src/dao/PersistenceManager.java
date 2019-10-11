@@ -13,7 +13,8 @@ public class PersistenceManager {
 
     private static Connection connection;
 
-    private PersistenceManager() {  }//Prevents initialization
+    private PersistenceManager() {
+    }//Prevents initialization
 
     public static Connection getConnection() throws IOException, ClassNotFoundException, SQLException {
 

@@ -1,7 +1,6 @@
-package tests;
+package tests.bo;
 
 import bo.*;
-import dao.AgenceDAO;
 
 import java.io.IOException;
 import java.sql.SQLException;

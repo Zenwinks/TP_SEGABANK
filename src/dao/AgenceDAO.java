@@ -1,67 +1,106 @@
-package dao;
+package dal;
 
-import bo.*;
+import bo.Agence;
+import dao.IDAO;
+import dao.PersistenceManager;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
-public class AgenceDAO {
-    private static final String GET_BY_ID_AGENCE_QUERY = "SELECT * FROM agence WHERE id = ?";
-    private static final String GET_BY_CODE_AGENCE_QUERY = "SELECT * FROM agence WHERE code = ?";
-    private static final String GET_ALL_AGENCE_QUERY = "SELECT * FROM agence";
-    private static final String INSERT_AGENCE_QUERY = "INSERT INTO agence(code, adresse) VALUES(?, ?)";
-    private static final String UPDATE_AGENCE_QUERY = "UPDATE agence SET code = ? AND adresse = ? WHERE id = ?";
-    private static final String DELETE_AGENCE_QUERY = "DELETE * FROM agence WHERE id = ?";
+public class AgenceDAO implements IDAO<Long, Agence> {
 
-    public static Agence getAgenceById(int id) throws SQLException, IOException, ClassNotFoundException {
-        Agence agence = new Agence();
+    private static final String INSERT_QUERY = "INSERT INTO agence (code, adresse) VALUES(?,?)";
+    private static final String UPDATE_QUERY = "UPDATE agence SET code = ?, adresse = ? WHERE id = ?";
+    private static final String REMOVE_QUERY = "DELETE FROM agence WHERE id = ?";
+    private static final String FIND_QUERY = "SELECT * FROM agence WHERE id = ?";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM agence ORDER BY code";
+
+    @Override
+    public void create( Agence agence ) throws SQLException, IOException, ClassNotFoundException {
+
         Connection connection = PersistenceManager.getConnection();
-
-        try (PreparedStatement ps = connection.prepareStatement(GET_BY_ID_AGENCE_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            //Préparation de la requête
-            ps.setInt(1, id);
-
-            //Envoie de la requête
-            ps.executeUpdate();
-
-            //Récupération du résultat
-            try (ResultSet rs = ps.getGeneratedKeys()) {
-                if (rs.next()) {
-                    agence.setId(id);
-                    agence.setCode(rs.getString(1));
-                    agence.setAdresse(rs.getString(2));
-                    agence.setComptes(CompteDAO.getComptesByAgence(agence));
+        if ( connection != null ) {
+            try ( PreparedStatement ps = connection
+                    .prepareStatement( INSERT_QUERY, Statement.RETURN_GENERATED_KEYS ) ) {
+                ps.setString( 1, agence.getCode() );
+                ps.setString( 2, agence.getAdresse() );
+                ps.executeUpdate();
+                try ( ResultSet rs = ps.getGeneratedKeys() ) {
+                    if ( rs.next() ) {
+                        agence.setId( rs.getInt( 1 ) );
+                    }
                 }
             }
         }
-
-        PersistenceManager.closeConnection();
-
-        return agence;
     }
 
-//    public Agence getAgenceByCode(String code) {
-//
-//    }
-//
-//    public Agence getAgenceByCompte(Compte compte) {
-//
-//    }
-//
-//    public List<Agence> getAll() {
-//
-//    }
+    @Override
+    public void update( Agence agence ) throws SQLException, IOException, ClassNotFoundException {
 
-    public void insert(Agence agence) {
-
+        Connection connection = PersistenceManager.getConnection();
+        if ( connection != null ) {
+            try ( PreparedStatement ps = connection.prepareStatement( UPDATE_QUERY ) ) {
+                ps.setString( 1, agence.getCode() );
+                ps.setString( 2, agence.getAdresse() );
+                ps.setInt( 3, agence.getId() );
+                ps.executeUpdate();
+            }
+        }
     }
 
-    public void update(Agence agence) {
-
+    @Override
+    public void remove( Agence agence ) throws SQLException, IOException, ClassNotFoundException {
+        Connection connection = PersistenceManager.getConnection();
+        if ( connection != null ) {
+            try ( PreparedStatement ps = connection.prepareStatement( REMOVE_QUERY ) ) {
+                ps.setInt( 1, agence.getId() );
+                ps.executeUpdate();
+            }
+        }
     }
 
-    public void delete(Agence agence) {
 
+    @Override
+    public List<Agence> findById( int id ) throws SQLException, IOException, ClassNotFoundException {
+        List<Agence> list = new ArrayList<>();
+        Agence agence = null;
+        Connection connection = PersistenceManager.getConnection();
+        if ( connection != null ) {
+            try ( PreparedStatement ps = connection.prepareStatement( FIND_QUERY ) ) {
+                ps.setInt( 1, id );
+                try ( ResultSet rs = ps.executeQuery() ) {
+                    while ( rs.next() ) {
+                        agence = new Agence();
+                        agence.setId( rs.getInt( "id" ) );
+                        agence.setCode( rs.getString( "code" ) );
+                        agence.setAdresse( rs.getString( "adresse" ) );
+                        list.add( agence );
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<Agence> findAll() throws SQLException, IOException, ClassNotFoundException {
+        List<Agence> list = new ArrayList<>();
+        Connection connection = PersistenceManager.getConnection();
+        if ( connection != null ) {
+            try ( PreparedStatement ps = connection.prepareStatement( FIND_ALL_QUERY ) ) {
+                try ( ResultSet rs = ps.executeQuery() ) {
+                    while ( rs.next() ) {
+                        Agence agence = new Agence();
+                        agence.setId( rs.getInt( "id" ) );
+                        agence.setCode( rs.getString( "code" ) );
+                        agence.setAdresse( rs.getString( "adresse" ) );
+                        list.add( agence );
+                    }
+                }
+            }
+        }
+        return list;
     }
 }
