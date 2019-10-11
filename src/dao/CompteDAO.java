@@ -1,8 +1,6 @@
 package dao;
 
-import bo.Agence;
-import bo.Compte;
-import bo.CompteEpargne;
+import bo.*;
 
 import java.io.IOException;
 import java.sql.*;
@@ -22,7 +20,7 @@ public class CompteDAO {
             list.add(compte);
         }
 
-        /*ComptePayantDAO comptePayantDAO = new ComptePayantDAO();
+        ComptePayantDAO comptePayantDAO = new ComptePayantDAO();
         List<ComptePayant> listComptePayantDAO = comptePayantDAO.findAll();
         for (ComptePayant compte : listComptePayantDAO) {
             list.add(compte);
@@ -32,7 +30,7 @@ public class CompteDAO {
         List<CompteSimple> listCompteSimpleDAO = compteSimpleDAO.findAll();
         for (CompteSimple compte : listCompteSimpleDAO) {
             list.add(compte);
-        }*/
+        }
 
         return list;
     }

@@ -25,7 +25,7 @@ public class TestComptePayantDAO {
             System.err.println(e.getMessage());
         }
         ComptePayant updateComptePayant = new ComptePayant();
-        updateComptePayant.setId(11);
+        updateComptePayant.setId(7);
         updateComptePayant.setAgence(agence);
         updateComptePayant.setSolde(950);
         try {
