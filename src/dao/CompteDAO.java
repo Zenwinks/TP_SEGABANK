@@ -2,6 +2,7 @@ package dao;
 
 import bo.Agence;
 import bo.Compte;
+import bo.CompteEpargne;
 
 import java.io.IOException;
 import java.sql.*;
@@ -9,38 +10,65 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CompteDAO {
-    private static final String GET_COMPTES_BY_AGENCE_COMPTE_QUERY = "SELECT * FROM compte WHERE id_agence = ?";
-//    private final String GET_BY_CODE_AGENCE_QUERY = "SELECT * FROM agence WHERE code = ?";
-//    private final String GET_ALL_AGENCE_QUERY = "SELECT * FROM agence";
-//    private final String INSERT_AGENCE_QUERY = "INSERT INTO agence(code, adresse) VALUES(?, ?)";
-//    private final String UPDATE_AGENCE_QUERY = "UPDATE agence SET code = ? AND adresse = ? WHERE id = ?";
-//    private final String DELETE_AGENCE_QUERY = "DELETE * FROM agence WHERE id = ?";
 
-    public static List<Compte> getComptesByAgence(Agence agence) throws SQLException, IOException, ClassNotFoundException {
-        List<Compte> comptes = new ArrayList<>();
-        Compte compte = new Compte();
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM compte WHERE id = ?";
+
+    public List<Compte> findAll() throws SQLException, IOException, ClassNotFoundException {
+        List<Compte> list = new ArrayList<>();
+
+        CompteEpargneDAO compteEpargneDAO = new CompteEpargneDAO();
+        List<CompteEpargne> listCompteEpargneDAO = compteEpargneDAO.findAll();
+        for (CompteEpargne compte : listCompteEpargneDAO) {
+            list.add(compte);
+        }
+
+        /*ComptePayantDAO comptePayantDAO = new ComptePayantDAO();
+        List<ComptePayant> listComptePayantDAO = comptePayantDAO.findAll();
+        for (ComptePayant compte : listComptePayantDAO) {
+            list.add(compte);
+        }
+
+        CompteSimpleDAO compteSimpleDAO = new CompteSimpleDAO();
+        List<CompteSimple> listCompteSimpleDAO = compteSimpleDAO.findAll();
+        for (CompteSimple compte : listCompteSimpleDAO) {
+            list.add(compte);
+        }*/
+
+        return list;
+    }
+
+    public int getType(Integer id) throws SQLException, IOException, ClassNotFoundException {
         Connection connection = PersistenceManager.getConnection();
+        if (connection != null) {
+            try (PreparedStatement ps = connection.prepareStatement(FIND_BY_ID_QUERY)) {
+                ps.setInt(1, id);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        int type = rs.getInt("type");
 
-        try (PreparedStatement ps = connection.prepareStatement(GET_COMPTES_BY_AGENCE_COMPTE_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            //Préparation de la requête
-            ps.setInt(1, agence.getId());
-
-            //Envoie de la requête
-            ps.executeUpdate();
-
-            //Récupération du résultat
-            try (ResultSet rs = ps.getGeneratedKeys()) {
-                while (rs.next()) {
-                    compte.setId(rs.getInt("id"));
-                    compte.setSolde(rs.getFloat("solde"));
-                    compte.setAgence(agence);
-                    comptes.add(compte);
+                        return type;
+                    }
                 }
             }
         }
 
-        PersistenceManager.closeConnection();
+        return -1;
+    }
 
-        return comptes;
+    public boolean exist(int id) throws SQLException, IOException, ClassNotFoundException  {
+        Connection connection = PersistenceManager.getConnection();
+        if (connection != null) {
+            try (PreparedStatement ps = connection.prepareStatement(FIND_BY_ID_QUERY)) {
+                ps.setInt(1, id);
+
+                try (ResultSet rs = ps.executeQuery()) {
+
+                    //return true si existe
+                    return rs.next();
+                }
+            }
+        }
+
+        return false;
     }
 }

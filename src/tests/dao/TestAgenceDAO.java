@@ -1,7 +1,7 @@
 package tests.dao;
 
 import bo.Agence;
-import dal.AgenceDAO;
+import dao.AgenceDAO;
 import dao.IDAO;
 
 import java.io.IOException;

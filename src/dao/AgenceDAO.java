@@ -1,4 +1,4 @@
-package dal;
+package dao;
 
 import bo.Agence;
 import dao.IDAO;
@@ -63,9 +63,8 @@ public class AgenceDAO implements IDAO<Long, Agence> {
 
 
     @Override
-    public List<Agence> findById( int id ) throws SQLException, IOException, ClassNotFoundException {
-        List<Agence> list = new ArrayList<>();
-        Agence agence = null;
+    public Agence findById( int id ) throws SQLException, IOException, ClassNotFoundException {
+        Agence agence = new Agence();
         Connection connection = PersistenceManager.getConnection();
         if ( connection != null ) {
             try ( PreparedStatement ps = connection.prepareStatement( FIND_QUERY ) ) {
@@ -76,12 +75,11 @@ public class AgenceDAO implements IDAO<Long, Agence> {
                         agence.setId( rs.getInt( "id" ) );
                         agence.setCode( rs.getString( "code" ) );
                         agence.setAdresse( rs.getString( "adresse" ) );
-                        list.add( agence );
                     }
                 }
             }
         }
-        return list;
+        return agence;
     }
 
     @Override
