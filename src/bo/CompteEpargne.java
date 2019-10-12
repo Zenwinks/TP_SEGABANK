@@ -19,6 +19,10 @@ public class CompteEpargne extends Compte {
         this.tauxInteret = tauxInteret;
     }
 
+    public CompteEpargne(int id, float solde, Agence agence) {
+        super(id, solde, 2, agence);
+    }
+
     /**
      * Getters and Setters
      */

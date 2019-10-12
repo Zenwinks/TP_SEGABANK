@@ -72,28 +72,4 @@ public class Compte {
                 ", agence=" + agence +
                 '}';
     }
-
-    /**
-     * Methods
-     */
-    public void retrait(float montant) {
-        if (montant > 0) {
-            if (getSolde() - montant >= 0) {
-                solde -= montant;
-            } else {
-                System.out.println("Pas assez d'argent");
-            }
-        } else {
-            System.out.println("Un retrait ne peut être négatif");
-        }
-    }
-
-    public void versement(float montant) {
-        if(montant>0) {
-            this.solde += montant;
-        }
-        else{
-            System.out.println("Un virement ne peut être négatif");
-        }
-    }
 }

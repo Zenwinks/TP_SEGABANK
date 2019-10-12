@@ -171,15 +171,15 @@ public class App {
                 case 1:
                     System.out.printf("Découvert autorisé : ");
                     float decouvertAutorise = sc.nextFloat();
-                    updateCompte = new CompteSimple(compte.getId(),solde, agence, decouvertAutorise);
+                    updateCompte = new CompteSimple(compte.getId(), solde, agence, decouvertAutorise);
                     break;
                 case 2:
                     System.out.print("Taux d'intérêt (en pourcentage) : ");
                     float tauxInteret = sc.nextFloat();
-                    updateCompte = new CompteEpargne(compte.getId(),solde, agence, tauxInteret);
+                    updateCompte = new CompteEpargne(compte.getId(), solde, agence, tauxInteret);
                     break;
                 case 3:
-                    updateCompte = new ComptePayant(compte.getId(),solde, agence);
+                    updateCompte = new ComptePayant(compte.getId(), solde, agence);
                     break;
             }
             dao = changeDao(updateCompte);
@@ -194,7 +194,7 @@ public class App {
         System.out.println("======================================");
         System.out.println("====== SUPPRESSION D'UN COMPTE  ======");
         System.out.println("======================================");
-        IDAO<Long,Compte> dao = new CompteDAO();
+        IDAO<Long, Compte> dao = new CompteDAO();
         IDAO daobis = null;
         if (dao.findAll().isEmpty()) {
             System.out.println("Aucun compte disponible");
@@ -202,14 +202,12 @@ public class App {
         } else {
             Compte compte = getListChoixCompte();
             Compte removeCompte;
-            if(compte.getTypeCompte() == 1) {
-                removeCompte = new CompteSimple(compte.getId(), compte.getSolde(), compte.getAgence(),);
-            }
-            else if (compte.getTypeCompte() == 2){
-                removeCompte = new CompteEpargne(compte.getId(), compte.getSolde(), compte.getAgence(),0);
-            }
-            else {
-                removeCompte = new ComptePayant(compte.getId(), compte.getSolde(),compte.getAgence());
+            if (compte.getTypeCompte() == 1) {
+                removeCompte = new CompteSimple(compte.getId(), compte.getSolde(), compte.getAgence());
+            } else if (compte.getTypeCompte() == 2) {
+                removeCompte = new CompteEpargne(compte.getId(), compte.getSolde(), compte.getAgence(), 0);
+            } else {
+                removeCompte = new ComptePayant(compte.getId(), compte.getSolde(), compte.getAgence());
             }
             daobis = changeDao(compte);
             daobis.remove(removeCompte);
@@ -233,17 +231,16 @@ public class App {
             Compte compte = getListChoixCompte();
             System.out.print("Entrez le montant : ");
             int montant = sc.nextInt();
-            if(compte.getTypeCompte() ==1){
-                CompteSimple updateSoldeCompte = new CompteSimple(compte.getId(), getUpdateSolde(montant, typeOperation, compte.getSolde(), compte.getTypeCompte()), compte.getAgence());
-            }
-            else if (compte.getTypeCompte() ==1){
-                CompteEpargne updateSoldeCompte = new CompteEpargne(compte.getId(), getUpdateSolde(montant, typeOperation, compte.getSolde(), compte.getTypeCompte()), compte.getTypeCompte(), compte.getAgence());
-            }
-            else{
-                ComptePayant updateSoldeCompte = new ComptePayant(compte.getId(), getUpdateSolde(montant, typeOperation, compte.getSolde(), compte.getTypeCompte()), compte.getTypeCompte(), compte.getAgence());
+            Compte updateSoldeCompte;
+            if (compte.getTypeCompte() == 1) {
+                updateSoldeCompte = new CompteSimple(compte.getId(), getUpdateSolde(montant, typeOperation, compte.getSolde(), compte.getTypeCompte()), compte.getAgence());
+            } else if (compte.getTypeCompte() == 1) {
+                updateSoldeCompte = new CompteEpargne(compte.getId(), getUpdateSolde(montant, typeOperation, compte.getSolde(), compte.getTypeCompte()), compte.getAgence());
+            } else {
+                updateSoldeCompte = new ComptePayant(compte.getId(), getUpdateSolde(montant, typeOperation, compte.getSolde(), compte.getTypeCompte()), compte.getAgence());
             }
             daoCompte = changeDao(updateSoldeCompte);
-            daoCompte.update(updateSoldeCompte);
+            daoCompte.updateSolde(updateSoldeCompte);
             Operation createOperation = new Operation(typeOperation, compte.getId(), montant);
             daoOperation.create(createOperation);
             System.out.println(createOperation);
@@ -351,16 +348,14 @@ public class App {
         return agence;
     }
 
-    private static IDAO changeDao(Compte compte){
-        if (compte.getTypeCompte() == 1){
+    private static IDAO changeDao(Compte compte) {
+        if (compte.getTypeCompte() == 1) {
             IDAO<Integer, CompteSimple> dao = new CompteSimpleDAO();
             return dao;
-        }
-        else if (compte.getTypeCompte() == 2){
+        } else if (compte.getTypeCompte() == 2) {
             IDAO<Integer, CompteEpargne> dao = new CompteEpargneDAO();
             return dao;
-        }
-        else{
+        } else {
             IDAO<Integer, ComptePayant> dao = new ComptePayantDAO();
             return dao;
         }

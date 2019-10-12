@@ -50,6 +50,11 @@ public class OperationDAO implements IDAO<Long, Operation> {
     }
 
     @Override
+    public void updateSolde(Operation object) throws SQLException, IOException, ClassNotFoundException {
+
+    }
+
+    @Override
     public void remove(bo.Operation operation) throws SQLException, IOException, ClassNotFoundException {
         Connection connection = PersistenceManager.getConnection();
         if (connection != null) {

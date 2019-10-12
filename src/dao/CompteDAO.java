@@ -22,6 +22,11 @@ public class CompteDAO implements IDAO<Long, Compte>{
     }
 
     @Override
+    public void updateSolde(Compte object) throws SQLException, IOException, ClassNotFoundException {
+
+    }
+
+    @Override
     public void remove(Compte object) throws SQLException, IOException, ClassNotFoundException {
 
     }

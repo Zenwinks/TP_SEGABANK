@@ -17,29 +17,6 @@ public class ComptePayant extends Compte {
     }
 
     @Override
-    public void versement(float montant) {
-        if (montant > 0) {
-            setSolde(getSolde() + (montant - (montant * frais)));
-        } else {
-            System.out.println("Un virement ne peut être négatif");
-        }
-    }
-
-    @Override
-    public void retrait(float montant) {
-        if (montant > 0) {
-            float montantAvecFrais = (montant + (montant * frais));
-            if (getSolde() - montantAvecFrais >= 0) {
-                setSolde(getSolde() - montantAvecFrais);
-            } else {
-                System.out.println("Pas assez d'argent");
-            }
-        } else {
-            System.out.println("Un retrait ne peut être négatif");
-        }
-    }
-
-    @Override
     public String toString() {
         return "ComptePayant{" +
                 "id=" + id +

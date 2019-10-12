@@ -51,6 +51,11 @@ public class AgenceDAO implements IDAO<Long, Agence> {
     }
 
     @Override
+    public void updateSolde(Agence object) throws SQLException, IOException, ClassNotFoundException {
+
+    }
+
+    @Override
     public void remove( Agence agence ) throws SQLException, IOException, ClassNotFoundException {
         Connection connection = PersistenceManager.getConnection();
         if ( connection != null ) {

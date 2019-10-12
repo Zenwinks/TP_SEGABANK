@@ -12,6 +12,7 @@ public class ComptePayantDAO implements IDAO<Integer, ComptePayant> {
 
     private static final String INSERT = "INSERT INTO compte (solde, type, id_agence) VALUES(?,?,?)";
     private static final String UPDATE = "UPDATE compte SET solde = ? WHERE id = ?";
+    private static final String UPDATE_SOLDE = "UPDATE compte SET solde = ? WHERE id = ?";
     private static final String REMOVE = "DELETE FROM compte WHERE id = ? AND type = 3";
     private static final String FIND = "SELECT * FROM compte WHERE id = ? AND type = 3";
     private static final String FIND_ALL = "SELECT * FROM compte WHERE type = 3";
@@ -40,6 +41,18 @@ public class ComptePayantDAO implements IDAO<Integer, ComptePayant> {
         Connection connection = PersistenceManager.getConnection();
         if (connection != null) {
             try (PreparedStatement ps = connection.prepareStatement(UPDATE)) {
+                ps.setFloat(1, comptePayant.getSolde());
+                ps.setInt(2, comptePayant.getId());
+                ps.executeUpdate();
+            }
+        }
+    }
+
+    @Override
+    public void updateSolde(ComptePayant comptePayant) throws SQLException, IOException, ClassNotFoundException {
+        Connection connection = PersistenceManager.getConnection();
+        if (connection != null) {
+            try (PreparedStatement ps = connection.prepareStatement(UPDATE_SOLDE)) {
                 ps.setFloat(1, comptePayant.getSolde());
                 ps.setInt(2, comptePayant.getId());
                 ps.executeUpdate();
