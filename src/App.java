@@ -10,6 +10,9 @@ import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import static bo.Operation.TypeOperation.R;
+import static bo.Operation.TypeOperation.V;
+
 public class App {
 
     private static Agence agence = new Agence();
@@ -70,9 +73,9 @@ public class App {
             case 5:
                 showCompte(true);
                 break;
-//            case 6:
-//                addOperation();
-//                break;
+            case 6:
+                addOperation();
+                break;
 //            case 7:
 //                exportOperation();
 //                break;
@@ -215,31 +218,32 @@ public class App {
         }
     }
 
-//    private static void addOperation() throws SQLException, IOException, ClassNotFoundException {
-//        System.out.println("======================================");
-//        System.out.println("====== CREATION D'UNE OPERATION ======");
-//        System.out.println("======================================");
-//        IDAO<Long, Operation> daoOperation = new OperationDAO();
-//        IDAO<Long, Compte> daoCompte = new CompteDAO();
-//        if (daoCompte.findAll().isEmpty()) {
-//            System.out.println("Aucun compte disponible pour créer un opération");
-//            dspMainMenu();
-//        } else {
-//            Operation.TypeOperation typeOperation = getTypeOperationFromKeyboard(true);
-//            System.out.println("Choisissez pour quel compte l'opération va s'effectuer : ");
-//            Compte compte = getListChoixCompte();
-//            System.out.print("Entrez le montant : ");
-//            int montant = sc.nextInt();
-//            Compte updateSoldeCompte = new Compte(compte.getId(), getUpdateSolde(montant, typeOperation, compte.getSolde(), compte.getTypeCompte()), compte.getCodeAgence(), compte.getTypeCompte());
-//            daoCompte.update(updateSoldeCompte);
-//            Operation createOperation = new Operation(typeOperation, compte.getId(), montant);
-//            daoOperation.create(createOperation);
-//            System.out.println(createOperation);
-//            System.out.println("Opération effectuée avec succès.");
-//            dspMainMenu();
-//        }
-//    }
-//
+    private static void addOperation() throws SQLException, IOException, ClassNotFoundException {
+        System.out.println("======================================");
+        System.out.println("====== CREATION D'UNE OPERATION ======");
+        System.out.println("======================================");
+        IDAO<Long, Operation> daoOperation = new OperationDAO();
+        IDAO<Long, Compte> daoCompte = new CompteDAO();
+        if (daoCompte.findAll().isEmpty()) {
+            System.out.println("Aucun compte disponible pour créer un opération");
+            dspMainMenu();
+        } else {
+            Operation.TypeOperation typeOperation = getTypeOperationFromKeyboard(true);
+            System.out.println("Choisissez pour quel compte l'opération va s'effectuer : ");
+            Compte compte = getListChoixCompte();
+            System.out.print("Entrez le montant : ");
+            int montant = sc.nextInt();
+            Compte updateSoldeCompte = new Compte(compte.getId(), getUpdateSolde(montant, typeOperation, compte.getSolde(), compte.getTypeCompte()), compte.getTypeCompte(), compte.getAgence());
+            daoCompte = changeDao(updateSoldeCompte);
+            daoCompte.update(updateSoldeCompte);
+            Operation createOperation = new Operation(typeOperation, compte.getId(), montant);
+            daoOperation.create(createOperation);
+            System.out.println(createOperation);
+            System.out.println("Opération effectuée avec succès.");
+            dspMainMenu();
+        }
+    }
+
 //    private static void exportOperation() throws SQLException, IOException, ClassNotFoundException {
 //        System.out.println("======================================");
 //        System.out.println("===== EXPORTER DES OPERATIONS  =====");
@@ -354,46 +358,46 @@ public class App {
         }
     }
 
-//    private static int getUpdateSolde(int montant, Operation.TypeOperation typeOperation, int solde, Compte.TypeCompte typecompte) {
-//        double pourcentage;
-//        pourcentage = (1.0 * (montant * 5) / 100);
-//        if (typeOperation == V && typecompte != Compte.TypeCompte.P) {
-//            solde = solde + montant;
-//        } else if (typeOperation == R && typecompte != Compte.TypeCompte.P) {
-//            solde = solde - montant;
-//        } else if (typeOperation == V && typecompte == Compte.TypeCompte.P) {
-//            solde = (int) (solde + (montant - pourcentage));
-//            System.out.println("Un pourcentage de 5% a été déduit de votre opération soit : " + pourcentage);
-//        } else if (typeOperation == R && typecompte == Compte.TypeCompte.P) {
-//            solde = (int) (solde - (montant + pourcentage));
-//            System.out.println("Un pourcentage de 5% a été déduit de votre opération soit : " + pourcentage);
-//        }
-//        return solde;
-//    }
-//
-//    private static Operation.TypeOperation getTypeOperationFromKeyboard(boolean mandatory) {
-//
-//        boolean first = true;
-//        int response;
-//        do {
-//            if (!first) {
-//                System.out.println("Mauvais choix... merci de recommencer !");
-//            }
-//            System.out
-//                    .printf("Sélectionner le type d'opération %s...%n", (!mandatory ? "(Tapez Entrée pour passer)" : ""));
-//            System.out.println("1 - Versement");
-//            System.out.println("2 - Retrait");
-//            try {
-//                System.out.print("Votre choix : ");
-//                response = sc.nextInt();
-//            } catch (InputMismatchException e) {
-//                response = -1;
-//            } finally {
-//                sc.nextLine();
-//            }
-//            first = false;
-//        } while (mandatory && (response < 1 || response > 2));
-//        if (!mandatory && response != 1 && response != 2) return null;
-//        else return Operation.TypeOperation.values()[response - 1];
-//    }
+    private static float getUpdateSolde(int montant, Operation.TypeOperation typeOperation, float solde, int typecompte) {
+        double pourcentage;
+        pourcentage = (1.0 * (montant * 5) / 100);
+        if (typeOperation == V && typecompte != 3) {
+            solde = solde + montant;
+        } else if (typeOperation == R && typecompte != 3) {
+            solde = solde - montant;
+        } else if (typeOperation == V && typecompte == 3) {
+            solde = (int) (solde + (montant - pourcentage));
+            System.out.println("Un pourcentage de 5% a été déduit de votre opération soit : " + pourcentage);
+        } else if (typeOperation == R && typecompte == 3) {
+            solde = (int) (solde - (montant + pourcentage));
+            System.out.println("Un pourcentage de 5% a été déduit de votre opération soit : " + pourcentage);
+        }
+        return solde;
+    }
+
+    private static Operation.TypeOperation getTypeOperationFromKeyboard(boolean mandatory) {
+
+        boolean first = true;
+        int response;
+        do {
+            if (!first) {
+                System.out.println("Mauvais choix... merci de recommencer !");
+            }
+            System.out
+                    .printf("Sélectionner le type d'opération %s...%n", (!mandatory ? "(Tapez Entrée pour passer)" : ""));
+            System.out.println("1 - Versement");
+            System.out.println("2 - Retrait");
+            try {
+                System.out.print("Votre choix : ");
+                response = sc.nextInt();
+            } catch (InputMismatchException e) {
+                response = -1;
+            } finally {
+                sc.nextLine();
+            }
+            first = false;
+        } while (mandatory && (response < 1 || response > 2));
+        if (!mandatory && response != 1 && response != 2) return null;
+        else return Operation.TypeOperation.values()[response - 1];
+    }
 }

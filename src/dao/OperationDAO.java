@@ -9,7 +9,7 @@ import java.util.List;
 
 public class OperationDAO implements IDAO<Long, Operation> {
     private static final String INSERT_QUERY = "INSERT INTO operation (type, id_compte, montant) VALUES(?,?,?)";
-    private static final String UPDATE_QUERY = "UPDATE operation SET type = ?, codeCompte = ?, montant = ? WHERE id = ?";
+    private static final String UPDATE_QUERY = "UPDATE operation SET type = ?, id_compte = ?, montant = ? WHERE id = ?";
     private static final String REMOVE_QUERY = "DELETE FROM operation WHERE id = ?";
     private static final String FIND_QUERY = "SELECT * FROM operation WHERE id_compte = ?";
     private static final String FIND_ALL_QUERY = "SELECT * FROM operation";
