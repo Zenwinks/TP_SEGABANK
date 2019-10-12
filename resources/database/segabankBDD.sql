@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  ven. 11 oct. 2019 à 06:56
+-- Généré le :  sam. 12 oct. 2019 à 14:30
 -- Version du serveur :  5.7.24
 -- Version de PHP :  7.2.14
 
@@ -21,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `segabank`
 --
-CREATE DATABASE IF NOT EXISTS `segabank` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `segabank`;
 
 -- --------------------------------------------------------
 
@@ -58,70 +56,24 @@ DROP TABLE IF EXISTS `compte`;
 CREATE TABLE IF NOT EXISTS `compte` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `solde` float NOT NULL,
-  `decouvert` float DEFAULT NULL,
+  `decouvertAutorise` float DEFAULT NULL,
   `taux_interet` float DEFAULT NULL,
   `type` int(1) NOT NULL,
   `id_agence` int(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_CompteAgence` (`id_agence`),
-  KEY `FK_TypeCompte` (`type`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `compte`
 --
 
-INSERT INTO `compte` (`id`, `solde`, `decouvert`, `taux_interet`, `type`, `id_agence`) VALUES
-(1, 1050, NULL, 5, 1, 2),
-(5, 445.14, 260, NULL, 2, 1),
-(3, 1610.5, 250, NULL, 2, 2),
-(4, 2075, NULL, NULL, 3, 2),
-(6, 87500, 5000, NULL, 2, 1),
-(7, 675, NULL, 15, 1, 3),
-(8, -180, 500, NULL, 2, 4),
-(9, 5000, NULL, NULL, 3, 4),
-(10, 1423880, NULL, NULL, 3, 3);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `operation`
---
-
-DROP TABLE IF EXISTS `operation`;
-CREATE TABLE IF NOT EXISTS `operation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` int(2) NOT NULL,
-  `id_compte` int(5) NOT NULL,
-  `montant` float NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_OperationCompte` (`id_compte`),
-  KEY `FK_TypeOperation` (`type`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `type_compte`
---
-
-DROP TABLE IF EXISTS `type_compte`;
-CREATE TABLE IF NOT EXISTS `type_compte` (
-  `id` int(4) NOT NULL AUTO_INCREMENT,
-  `label` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `type_compte`
---
-
-INSERT INTO `type_compte` (`id`, `label`) VALUES
-(1, 'Simple'),
-(2, 'Épargne'),
-(3, 'Payant');
-
--- --------------------------------------------------------
+INSERT INTO `compte` (`id`, `solde`, `decouvertAutorise`, `taux_interet`, `type`, `id_agence`) VALUES
+(1, 1000, 200, NULL, 1, 1),
+(2, 8000, NULL, 5, 2, 3),
+(3, 675, NULL, NULL, 3, 4),
+(4, 1400, 100, NULL, 1, 2),
+(5, 97213, NULL, 15, 2, 1);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
