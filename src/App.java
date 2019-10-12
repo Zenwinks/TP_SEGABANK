@@ -158,10 +158,10 @@ public class App {
         } else {
             System.out.println("Choisissez le compte à modifier ...");
             Compte compte = getListChoixCompte();
-            System.out.printf("======= MODIFICATION DE (%s) =======", compte.getId());
-            System.out.printf("Type du compte(%s) (1-Simple, 2-Epargne, 3-Payant): ", compte.getTypeCompte());
+            System.out.printf("========== MODIFICATION ==========", compte.getId());
+            System.out.printf("Type du compte (1-Simple, 2-Epargne, 3-Payant) : ", compte.getTypeCompte());
             System.out.println();
-            System.out.printf("Entrez le solde (Actuellement : %s): ", compte.getSolde());
+            System.out.printf("Entrez le solde (Actuellement : %s) : ", compte.getSolde());
             int solde = sc.nextInt();
             System.out.printf("Choisissez votre agence (Actuellement : %s): ", compte.getAgence().getCode());
             System.out.println("");
