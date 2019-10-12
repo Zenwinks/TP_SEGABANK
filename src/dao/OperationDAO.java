@@ -102,8 +102,8 @@ public class OperationDAO implements IDAO<Long, Operation> {
                     while (rs.next()) {
                         bo.Operation operation = new bo.Operation();
                         operation.setId(rs.getInt("id"));
-                        operation.setTypeOperation((bo.Operation.TypeOperation.valueOf(rs.getString("typeOperation"))));
-                        operation.setCodeCompte(rs.getInt("codeCompte"));
+                        operation.setTypeOperation((bo.Operation.TypeOperation.valueOf(rs.getString("type"))));
+                        operation.setCodeCompte(rs.getInt("id_compte"));
                         operation.setMontant(rs.getInt("montant"));
                         list.add(operation);
                     }
