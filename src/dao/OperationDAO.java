@@ -61,7 +61,11 @@ public class OperationDAO implements IDAO<Long, Operation> {
     }
 
     @Override
-    public List<bo.Operation> findById(int codeCompte) throws SQLException, IOException, ClassNotFoundException {
+    public Object findById(int id) throws SQLException, IOException, ClassNotFoundException {
+        return null;
+    }
+
+    public List<bo.Operation> findByCompteId(int codeCompte) throws SQLException, IOException, ClassNotFoundException {
         bo.Operation operation = null;
         List<bo.Operation> list = new ArrayList<>();
         Connection connection = PersistenceManager.getConnection();
@@ -72,8 +76,8 @@ public class OperationDAO implements IDAO<Long, Operation> {
                     while (rs.next()) {
                         operation = new bo.Operation();
                         operation.setId(rs.getInt("id"));
-                        operation.setTypeOperation((bo.Operation.TypeOperation.valueOf(rs.getString("typeOperation"))));
-                        operation.setCodeCompte(rs.getInt("codeCompte"));
+                        operation.setTypeOperation((bo.Operation.TypeOperation.valueOf(rs.getString("type"))));
+                        operation.setCodeCompte(rs.getInt("id_compte"));
                         operation.setMontant(rs.getInt("montant"));
                         list.add(operation);
                     }

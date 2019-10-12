@@ -76,9 +76,9 @@ public class App {
             case 6:
                 addOperation();
                 break;
-//            case 7:
-//                exportOperation();
-//                break;
+            case 7:
+                exportOperation();
+                break;
             case 8:
                 System.out.println("Fermeture de l'application...");
                 break;
@@ -252,35 +252,35 @@ public class App {
         }
     }
 
-//    private static void exportOperation() throws SQLException, IOException, ClassNotFoundException {
-//        System.out.println("======================================");
-//        System.out.println("===== EXPORTER DES OPERATIONS  =====");
-//        System.out.println("======================================");
-//        IDAO<Long, Operation> daoOperation = new OperationDAO();
-//        IDAO<Long, Compte> daoCompte = new CompteDAO();
-//        if (daoCompte.findAll().isEmpty()) {
-//            System.out.println("Aucun compte disponible pour exporter des opérations");
-//            dspMainMenu();
-//        } else {
-//            System.out.println("Choisissez pour quel compte vous voulez exportez les opérations : ");
-//            Compte compte = getListChoixCompte();
-//            int i = 1;
-//            for (Operation operation : daoOperation.findById(compte.getId())) {
-//                System.out.println(i + "-" + operation);
-//                i++;
-//            }
-//            File file = new File("./resources/Operations.csv");
-//            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-//            Iterator it = daoOperation.findById(compte.getId()).iterator();
-//            while (it.hasNext()) {
-//                bw.write(it.next().toString());
-//                bw.newLine();
-//            }
-//            bw.close();
-//            System.out.println("Sauvegarde des opérations effectuée.");
-//            dspMainMenu();
-//        }
-//    }
+    private static void exportOperation() throws SQLException, IOException, ClassNotFoundException {
+        System.out.println("======================================");
+        System.out.println("===== EXPORTER DES OPERATIONS  =====");
+        System.out.println("======================================");
+        OperationDAO daoOperation = new OperationDAO();
+        IDAO<Long, Compte> daoCompte = new CompteDAO();
+        if (daoCompte.findAll().isEmpty()) {
+            System.out.println("Aucun compte disponible pour exporter des opérations");
+            dspMainMenu();
+        } else {
+            System.out.println("Choisissez pour quel compte vous voulez exportez les opérations : ");
+            Compte compte = getListChoixCompte();
+            int i = 1;
+            for (Operation operation : daoOperation.findByCompteId(compte.getId())) {
+                System.out.println(i + "-" + operation);
+                i++;
+            }
+            File file = new File("./resources/Operations.csv");
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
+            Iterator it = daoOperation.findByCompteId(compte.getId()).iterator();
+            while (it.hasNext()) {
+                bw.write(it.next().toString());
+                bw.newLine();
+            }
+            bw.close();
+            System.out.println("Sauvegarde des opérations effectuée.");
+            dspMainMenu();
+        }
+    }
 
     private static void showCompte(boolean dspMenu) throws SQLException, IOException, ClassNotFoundException {
         if (dspMenu) {
