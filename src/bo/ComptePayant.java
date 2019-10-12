@@ -47,4 +47,9 @@ public class ComptePayant extends Compte {
                 ", agence=" + agence +
                 '}';
     }
+
+    @Override
+    public int getTypeCompte() {
+        return 3;
+    }
 }

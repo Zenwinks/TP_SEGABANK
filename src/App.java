@@ -155,8 +155,9 @@ public class App {
         } else {
             System.out.println("Choisissez le compte à modifier ...");
             Compte compte = getListChoixCompte();
-            System.out.printf("======= MODIFICATION DE (%s) %n =======", compte.getId());
+            System.out.printf("======= MODIFICATION DE (%s) =======", compte.getId());
             System.out.printf("Type du compte(%s) (1-Simple, 2-Epargne, 3-Payant): ", compte.getTypeCompte());
+            System.out.println();
             System.out.printf("Entrez le solde (Actuellement : %s): ", compte.getSolde());
             int solde = sc.nextInt();
             System.out.printf("Choisissez votre agence (Actuellement : %s): ", compte.getAgence().getCode());
@@ -167,17 +168,18 @@ public class App {
                 case 1:
                     System.out.printf("Découvert autorisé : ");
                     float decouvertAutorise = sc.nextFloat();
-                    updateCompte = new CompteSimple(solde, agence, decouvertAutorise);
+                    updateCompte = new CompteSimple(compte.getId(),solde, agence, decouvertAutorise);
                     break;
                 case 2:
                     System.out.print("Taux d'intérêt (en pourcentage) : ");
                     float tauxInteret = sc.nextFloat();
-                    updateCompte = new CompteEpargne(solde, agence, tauxInteret);
+                    updateCompte = new CompteEpargne(compte.getId(),solde, agence, tauxInteret);
                     break;
                 case 3:
-                    updateCompte = new ComptePayant(solde, agence);
+                    updateCompte = new ComptePayant(compte.getId(),solde, agence);
                     break;
             }
+            dao = changeDao(updateCompte);
             dao.update(updateCompte);
             System.out.println("Compte modifié avec succès.");
             dspMainMenu();
@@ -189,14 +191,25 @@ public class App {
         System.out.println("======================================");
         System.out.println("====== SUPPRESSION D'UN COMPTE  ======");
         System.out.println("======================================");
-        IDAO<Long, Compte> dao = new CompteDAO();
+        IDAO<Long,Compte> dao = new CompteDAO();
+        IDAO daobis = null;
         if (dao.findAll().isEmpty()) {
             System.out.println("Aucun compte disponible");
             dspMainMenu();
         } else {
             Compte compte = getListChoixCompte();
-            Compte removeCompte = new Compte(compte.getId(), compte.getSolde(), compte.getTypeCompte(), compte.getAgence());
-            dao.remove(removeCompte);
+            Compte removeCompte;
+            if(compte.getTypeCompte() == 1) {
+                removeCompte = new CompteSimple(compte.getId(), compte.getSolde(), compte.getAgence(),0);
+            }
+            else if (compte.getTypeCompte() == 2){
+                removeCompte = new CompteEpargne(compte.getId(), compte.getSolde(), compte.getAgence(),0);
+            }
+            else {
+                removeCompte = new ComptePayant(compte.getId(), compte.getSolde(),compte.getAgence());
+            }
+            daobis = changeDao(compte);
+            daobis.remove(removeCompte);
             System.out.println("Compte " + compte.getId() + " supprimé avec succès.");
             dspMainMenu();
         }
@@ -324,6 +337,21 @@ public class App {
         } while (response < 1 || response > size);
         Agence agence = dao.findAll().get((response - 1));
         return agence;
+    }
+
+    private static IDAO changeDao(Compte compte){
+        if (compte.getTypeCompte() == 1){
+            IDAO<Integer, CompteSimple> dao = new CompteSimpleDAO();
+            return dao;
+        }
+        else if (compte.getTypeCompte() == 2){
+            IDAO<Integer, CompteEpargne> dao = new CompteEpargneDAO();
+            return dao;
+        }
+        else{
+            IDAO<Integer, ComptePayant> dao = new ComptePayantDAO();
+            return dao;
+        }
     }
 
 //    private static int getUpdateSolde(int montant, Operation.TypeOperation typeOperation, int solde, Compte.TypeCompte typecompte) {

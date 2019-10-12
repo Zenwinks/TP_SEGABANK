@@ -55,4 +55,9 @@ public class CompteSimple extends Compte {
                 ", agence=" + agence +
                 '}';
     }
+
+    @Override
+    public int getTypeCompte() {
+        return 1;
+    }
 }

@@ -50,4 +50,9 @@ public class CompteEpargne extends Compte {
         float interet = getSolde() + (getSolde() * (tauxInteret / 100));
         setSolde(interet);
     }
+
+    @Override
+    public int getTypeCompte() {
+        return 2;
+    }
 }
