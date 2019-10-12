@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  sam. 12 oct. 2019 à 14:30
+-- Généré le :  sam. 12 oct. 2019 à 15:10
 -- Version du serveur :  5.7.24
 -- Version de PHP :  7.2.14
 
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `segabank`
 --
+CREATE DATABASE IF NOT EXISTS `segabank` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `segabank`;
 
 -- --------------------------------------------------------
 
