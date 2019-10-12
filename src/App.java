@@ -203,7 +203,7 @@ public class App {
             Compte compte = getListChoixCompte();
             Compte removeCompte;
             if(compte.getTypeCompte() == 1) {
-                removeCompte = new CompteSimple(compte.getId(), compte.getSolde(), compte.getAgence(),0);
+                removeCompte = new CompteSimple(compte.getId(), compte.getSolde(), compte.getAgence(),);
             }
             else if (compte.getTypeCompte() == 2){
                 removeCompte = new CompteEpargne(compte.getId(), compte.getSolde(), compte.getAgence(),0);
@@ -233,7 +233,15 @@ public class App {
             Compte compte = getListChoixCompte();
             System.out.print("Entrez le montant : ");
             int montant = sc.nextInt();
-            Compte updateSoldeCompte = new Compte(compte.getId(), getUpdateSolde(montant, typeOperation, compte.getSolde(), compte.getTypeCompte()), compte.getTypeCompte(), compte.getAgence());
+            if(compte.getTypeCompte() ==1){
+                CompteSimple updateSoldeCompte = new CompteSimple(compte.getId(), getUpdateSolde(montant, typeOperation, compte.getSolde(), compte.getTypeCompte()), compte.getAgence());
+            }
+            else if (compte.getTypeCompte() ==1){
+                CompteEpargne updateSoldeCompte = new CompteEpargne(compte.getId(), getUpdateSolde(montant, typeOperation, compte.getSolde(), compte.getTypeCompte()), compte.getTypeCompte(), compte.getAgence());
+            }
+            else{
+                ComptePayant updateSoldeCompte = new ComptePayant(compte.getId(), getUpdateSolde(montant, typeOperation, compte.getSolde(), compte.getTypeCompte()), compte.getTypeCompte(), compte.getAgence());
+            }
             daoCompte = changeDao(updateSoldeCompte);
             daoCompte.update(updateSoldeCompte);
             Operation createOperation = new Operation(typeOperation, compte.getId(), montant);
