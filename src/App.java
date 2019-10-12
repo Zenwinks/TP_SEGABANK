@@ -1,8 +1,5 @@
 import bo.*;
-import dao.AgenceDAO;
-import dao.CompteDAO;
-import dao.IDAO;
-import dao.OperationDAO;
+import dao.*;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -106,37 +103,39 @@ public class App {
         System.out.println("======================================");
         System.out.println("======== CREATION D'UN COMPTE ========");
         System.out.println("======================================");
-        IDAO<Long, Compte> dao = new CompteDAO();
+        IDAO dao = null;
         System.out.printf("Entrez le solde : ");
         int solde = sc.nextInt();
         int type;
         do {
-            System.out.print("Quel type de compte ? (1-Simple, 2-Épargne, 3-Payant");
+            System.out.print("Quel type de compte ? 1-Simple, 2-Épargne, 3-Payant");
             type = sc.nextInt();
         } while (type < 1 || type > 3);
         Compte createCompte = new Compte();
+        System.out.println("Choisissez votre agence : ");
+        Agence agence = getListChoixAgence();
         switch (type) {
             case 1:
+                dao = new CompteSimpleDAO();
                 System.out.println("Vous avez choisi un compte Simple, quel découvert autorisez-vous ?");
                 System.out.print("Découvert autorisé : ");
                 float decouvertAutorise = sc.nextFloat();
                 createCompte = new CompteSimple(solde, agence, decouvertAutorise);
                 break;
             case 2:
+                dao = new CompteEpargneDAO();
                 System.out.println("Vous avez choisi un compte Epargne, quel est son taux d'intérêts ?");
                 System.out.print("Taux d'intérêt (en pourcentage) : ");
                 float tauxInteret = sc.nextFloat();
                 createCompte = new CompteEpargne(solde, agence, tauxInteret);
                 break;
             case 3:
+                dao = new ComptePayantDAO();
                 createCompte = new ComptePayant(solde, agence);
                 break;
         }
-        System.out.println("Choisissez votre agence : ");
-        Agence agence = getListChoixAgence();
         try {
             dao.create(createCompte);
-            System.out.println("Créer : " + createCompte);
             System.out.println("Compte créé avec succès.");
         } catch (SQLException e) {
             System.out.println("Erreur lors de la création du compte.");

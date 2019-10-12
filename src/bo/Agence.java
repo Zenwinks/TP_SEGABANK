@@ -66,7 +66,7 @@ public class Agence {
         return adresse;
     }
 
-    public void setAdresse(String address) {
+    public void setAdresse(String adresse) {
         this.adresse = adresse;
     }
 
